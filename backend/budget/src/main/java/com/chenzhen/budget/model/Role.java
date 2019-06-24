@@ -2,14 +2,11 @@ package com.chenzhen.budget.model;
 
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
 public class Role {
     private Long id;
     private String roleName;
-    private User user;
-    private List<Permission> permissions;
+    private String permIds;
 
     public Long getId() {
         return id;
@@ -27,19 +24,11 @@ public class Role {
         this.roleName = roleName;
     }
 
-    public User getUser() {
-        return user;
+    public String getPermIds() {
+        return permIds;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public List<Permission> getPermissions() {
-        return permissions;
-    }
-
-    public void setPermissions(List<Permission> permissions) {
-        this.permissions = permissions;
+    public void setPermIds(String permIds) {
+        this.permIds = permIds;
     }
 }

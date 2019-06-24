@@ -41,7 +41,7 @@ public class ShiroConfiguration {
         map.put("/**", "authc");
         shiroFilterFactoryBean.setLoginUrl("/login");
         //错误页面，认证不通过跳转
-        shiroFilterFactoryBean.setUnauthorizedUrl("/error");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/login_err");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
 
         return shiroFilterFactoryBean;

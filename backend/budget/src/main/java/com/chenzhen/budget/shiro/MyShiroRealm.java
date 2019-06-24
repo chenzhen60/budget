@@ -48,10 +48,12 @@ public class MyShiroRealm extends AuthorizingRealm {
 
         User user = (User) getAvailablePrincipal(principalCollection);
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        logger.info("获取角色信息："+user.getRoles());
-        logger.info("获取权限信息："+user.getPerms());
-        info.setRoles(user.getRoles());
-        info.setStringPermissions(user.getPerms());
+        Set<String> roles = roleService.getRolesByUserId(user.getId());
+        Set<String> perms = permissionService.getPermsByUserId(user.getId());
+        logger.info("获取角色信息："+roles);
+        logger.info("获取权限信息："+perms);
+        info.setRoles(roles);
+        info.setStringPermissions(perms);
         return info;
     }
 
@@ -68,11 +70,6 @@ public class MyShiroRealm extends AuthorizingRealm {
         if (userDB == null) {
             throw new UnknownAccountException("No account found for admin [" + username + "]");
         }
-
-        Set<String> roles = roleService.getRolesByUserId(userDB.getId());
-        Set<String> perms = permissionService.getPermsByUserId(userDB.getId());
-        userDB.getRoles().addAll(roles);
-        userDB.getPerms().addAll(perms);
 
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(userDB, userDB.getPwd(), userDB.getName());
         if (!userDB.getSalt().isEmpty()) {

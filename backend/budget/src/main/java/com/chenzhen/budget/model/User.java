@@ -3,8 +3,6 @@ package com.chenzhen.budget.model;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 
 @Component
@@ -12,26 +10,28 @@ public class User {
     private Long id;       // 用户id
     private String name;   // 登录名，不可改
     private String nick;    // 用户昵称，可改
+    private String avatar;
     private String pwd;     // 已加密的登录密码
     private String salt;    // 加密盐值
     private Date created;   // 创建时间
     private Date updated;   // 修改时间
-    private Set<String> roles = new HashSet<>();    //用户所有角色值，用于shiro做角色权限的判断
-    private Set<String> perms = new HashSet<>();    //用户所有权限值，用于shiro做资源权限的判断
+    private String roleIds; //用户所有角色值，用于shiro做角色权限的判断
+    private String permIds; //用户所有权限值，用于shiro做资源权限的判断
 
 
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", uname='" + name + '\'' +
+                ", name='" + name + '\'' +
                 ", nick='" + nick + '\'' +
+                ", avatar='" + avatar + '\'' +
                 ", pwd='" + pwd + '\'' +
                 ", salt='" + salt + '\'' +
                 ", created=" + created +
                 ", updated=" + updated +
-                ", roles=" + roles +
-                ", perms=" + perms +
+                ", roleIds='" + roleIds + '\'' +
+                ", permIds='" + permIds + '\'' +
                 '}';
     }
 
@@ -91,19 +91,27 @@ public class User {
         this.updated = updated;
     }
 
-    public Set<String> getRoles() {
-        return roles;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setRoles(Set<String> roles) {
-        this.roles = roles;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
-    public Set<String> getPerms() {
-        return perms;
+    public String getRoleIds() {
+        return roleIds;
     }
 
-    public void setPerms(Set<String> perms) {
-        this.perms = perms;
+    public void setRoleIds(String roleIds) {
+        this.roleIds = roleIds;
+    }
+
+    public String getPermIds() {
+        return permIds;
+    }
+
+    public void setPermIds(String permIds) {
+        this.permIds = permIds;
     }
 }
