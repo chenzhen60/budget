@@ -1,5 +1,7 @@
 package com.chenzhen.budget.shiro;
 
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.mgt.SessionsSecurityManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -37,11 +39,12 @@ public class ShiroConfiguration {
         shiroFilterFactoryBean.setSecurityManager(securityManager);
 
         Map<String, String> map = new HashMap<>();
-        map.put("/logout", "logout");
+        map.put("/login", "anon");
+        map.put("/register", "logout");
         map.put("/**", "authc");
         shiroFilterFactoryBean.setLoginUrl("/login");
         //错误页面，认证不通过跳转
-        shiroFilterFactoryBean.setUnauthorizedUrl("/login_err");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/403");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
 
         return shiroFilterFactoryBean;
@@ -54,6 +57,15 @@ public class ShiroConfiguration {
         AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
         authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
         return authorizationAttributeSourceAdvisor;
+    }
+
+    @Bean
+    public HashedCredentialsMatcher hashedCredentialsMatcher() {
+        HashedCredentialsMatcher hashMatcher = new HashedCredentialsMatcher();
+        hashMatcher.setHashAlgorithmName("MD5");
+        hashMatcher.setHashIterations(1024);
+
+        return hashMatcher;
     }
 
 

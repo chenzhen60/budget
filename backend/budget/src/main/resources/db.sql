@@ -1,6 +1,6 @@
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(256) NOT NULL,
+  `name` varchar(256) NOT NULL unique,
   `nick` varchar(256),
   `avatar` varchar(256),
   `phone` varchar(256),
@@ -11,6 +11,7 @@ CREATE TABLE `users` (
   `created` date NOT NULL,
   `updated` date NOT NULL,
   `is_delete` boolean default false,
+
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

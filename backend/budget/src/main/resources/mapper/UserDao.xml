@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chenzhen.budget.dao.UserDao">
+
+    <select id="findUserByName" resultType="User" parameterType="String">
+        select *
+        from `users`
+        where name = #{name}
+    </select>
+
+    <insert id="registerUser" parameterType="User">
+        insert into `users` (name, pwd, salt, created, updated)
+        values (#{name}, #{pwd}, #{salt}, now(), now())
+    </insert>
+
+</mapper>

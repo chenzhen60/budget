@@ -1,21 +1,31 @@
 package com.chenzhen.budget.service;
 
+import com.chenzhen.budget.dao.UserDao;
 import com.chenzhen.budget.model.User;
+import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.Random;
+import javax.annotation.Resource;
+import java.util.UUID;
 
 @Service
 public class UserService {
+    @Resource
+    private UserDao userDao;
+
     public User findUserByName(final String name) {
-        User user = new User();
-        user.setName(name);
-        user.setNick(name+"NICK");
-        user.setPwd("J/ms7qTJtqmysekuY8/v1TAS+VKqXdH5sB7ulXZOWho=");//密码明文是123456
-        user.setSalt("wxKYXuTPST5SG0jMQzVPsg==");//加密密码的盐值
-        user.setId(new Random().nextLong());//随机分配一个id
-        user.setCreated(new Date());
+        User user = userDao.findUserByName(name);
         return user;
     }
+
+    public int registerUser(User user) {
+        String salt = UUID.randomUUID().toString().replaceAll("-", "");
+        ByteSource saltByteSource = ByteSource.Util.bytes(salt);
+        String newPwd = new SimpleHash(user.getPwd(), saltByteSource, 1024).toHex();
+        user.setSalt(salt);
+        user.setPwd(newPwd);
+        return userDao.registerUser(user);
+    }
+
 }

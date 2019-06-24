@@ -5,6 +5,8 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.UUID;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class BudgetApplicationTests {
@@ -16,11 +18,16 @@ public class BudgetApplicationTests {
 
     @Test
     public void other() {
-        String s1 = new StringBuilder("计算机").append("软件").toString();
-        System.out.println(s1.intern() == s1);
+//        String s1 = new StringBuilder("计算机").append("软件").toString();
+//        System.out.println(s1.intern() == s1);
+//
+//        String s2 = new StringBuilder("ja").append("va").toString();
+//        System.out.println(s2.intern() == s2);
 
-        String s2 = new StringBuilder("ja").append("va").toString();
-        System.out.println(s2.intern() == s2);
+
+        String salt = UUID.randomUUID().toString().replaceAll("-", "");
+        System.out.println(salt);
+
     }
 
 }
