@@ -7,6 +7,7 @@ target 'budget' do
 
   # Pods for budget
   pod 'SwiftyJSON', '~> 4.0'
+  pod 'RealmSwift'
 
   target 'budgetTests' do
     inherit! :search_paths

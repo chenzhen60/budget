@@ -7,8 +7,12 @@
 //
 
 import UIKit
+import RealmSwift
+
 
 class BudgetTableViewController: UITableViewController {
+    
+    private let realm = RealmUtil.userRealm(username: "chenzhen")!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,12 +33,13 @@ class BudgetTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        
-        return 4
+        let times = realm.objects(TimeBudget.self)
+        return times.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
+        let b = realm.objects(TimeBudget.self)[indexPath.row]
         
         if indexPath.row < 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TimeBudgetTableViewCell") as! TimeBudgetTableViewCell

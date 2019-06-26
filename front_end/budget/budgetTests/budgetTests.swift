@@ -8,6 +8,7 @@
 
 import XCTest
 @testable import budget
+import RealmSwift
 
 class budgetTests: XCTestCase {
 
@@ -20,8 +21,21 @@ class budgetTests: XCTestCase {
     }
 
     func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        let realm = RealmUtil.userRealm(username: "chenzhen")!
+        
+//        let budget = TimeBudget()
+//        budget.title = "just a test"
+//        budget.endDate = Date()
+//
+//        try! realm.write {
+//            realm.add(budget)
+//        }
+        
+        let budgets = realm.objects(TimeBudget.self)
+        for bugget in budgets {
+            print(bugget)
+        }
+        
     }
 
     func testPerformanceExample() {
