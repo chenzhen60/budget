@@ -25,6 +25,9 @@ class BudgetTableViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
+    
+    
+    /************** table view **************/
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
@@ -33,67 +36,122 @@ class BudgetTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        let times = realm.objects(TimeBudget.self)
-        return times.count
+        return budgetList().count
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let budget = getBudgetByIndex(index: indexPath.row) {
+            self.performSegue(withIdentifier: "showTimeItem", sender: budget)
+        }
+        
+    }
+    
+    
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
-        let b = realm.objects(TimeBudget.self)[indexPath.row]
+        let budget = getBudgetByIndex(index: indexPath.row)!
         
-        if indexPath.row < 2 {
+        if budget.type == BudgetType.time.rawValue {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TimeBudgetTableViewCell") as! TimeBudgetTableViewCell
+            cell.titleLabel.text = budget.title
+            cell.endDateLabel.text = CommonUtil.dateFormat(date: budget.endDate)
+            let components = Calendar.current.dateComponents([.day], from: Date.init(), to: budget.endDate).day ?? 0
+            cell.remaindStrLael.text = "还剩" + String(components) + "天"
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "MoneyBudgetTableViewCell") as! MoneyBudgetTableViewCell
             return cell
         }
     }
- 
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let delAction = UITableViewRowAction(style: .destructive, title: "删除") {
+            _, indexPath in
+            if let budget = self.getBudgetByIndex(index: indexPath.row) {
+                self.deleteBudget(budget: budget)
+            }
+            
+        }
+        
+        let editAction = UITableViewRowAction(style: .normal, title: "编辑") {
+            _,indexPath in
+        }
+        
+        let completeAction = UITableViewRowAction(style: .normal, title: "完成") {
+            (_, indexPath) in
+            if let budget = self.getBudgetByIndex(index: indexPath.row) {
+                self.completetBudget(budget: budget)
+            }
+        }
+        
+        return [completeAction, editAction, delAction]
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+    
+    
+    /************** action **************/
+    
+    @IBAction func addBtnPress(_ sender: Any) {
+        
+        let alertController = UIAlertController(title: "请选择", message: nil, preferredStyle: .actionSheet)
+        
+        let addTimeBudget = UIAlertAction(title: "添加倒计时", style: .default) { (_) in
+            self.performSegue(withIdentifier: "addTimeBudget", sender: nil)
+        }
+        let addMoneyBudget = UIAlertAction(title: "添假预算", style: .default) { (action) in
+        }
+        
+        let cancle = UIAlertAction(title: "取消", style: .default, handler: nil)
+        
+        alertController.addAction(addTimeBudget)
+        alertController.addAction(addMoneyBudget)
+        alertController.addAction(cancle)
+        self.present(alertController, animated: true, completion: nil)
     }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "addTimeBudget" {
+            let controller = segue.destination as! AddTimeBudgetTableViewController
+            controller.listViewController = self
+        } else if segue.identifier == "showTimeItem" {
+            let _ = sender as! Budget
+        }
     }
-    */
+    
+    
+    
+    
+    
+    
+    /************** data **************/
+    
+    func budgetList() -> Results<Budget> {
+        return realm.objects(Budget.self).filter("isDelete = false").filter("status != \(BudegetStatus.completed.rawValue)").sorted(byKeyPath: "endDate", ascending: false)
+    }
+ 
+    func getBudgetByIndex(index: Int) -> Budget? {
+        let budget = budgetList()[index]
+        return budget
+    }
+    
+
+    func deleteBudget(budget: Budget) {
+        try! realm.write {
+            budget.isDelete = true
+        }
+        self.tableView.reloadData()
+    }
+    
+    func reloadeListData() {
+        self.tableView.reloadData()
+    }
+    
+    func completetBudget(budget: Budget) {
+        try! realm.write {
+            budget.status = BudegetStatus.completed.rawValue
+        }
+        self.tableView.reloadData()
+    }
 
 }

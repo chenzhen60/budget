@@ -22,18 +22,23 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fwE-Qp-DWf">
                         <rect key="frame" x="0.0" y="0.0" width="170" height="79.5"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="期末考试" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9tp-CM-tgP">
-                                <rect key="frame" x="50" y="29" width="70" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="期末考试" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9tp-CM-tgP">
+                                <rect key="frame" x="15" y="29.5" width="140" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="9tp-CM-tgP" firstAttribute="leading" secondItem="fwE-Qp-DWf" secondAttribute="leading" constant="15" id="4uh-9C-NaJ"/>
+                            <constraint firstItem="9tp-CM-tgP" firstAttribute="centerX" secondItem="fwE-Qp-DWf" secondAttribute="centerX" id="7sI-3z-ti9"/>
+                            <constraint firstAttribute="trailing" secondItem="9tp-CM-tgP" secondAttribute="trailing" constant="15" id="FB3-91-xQp"/>
+                            <constraint firstItem="9tp-CM-tgP" firstAttribute="centerY" secondItem="fwE-Qp-DWf" secondAttribute="centerY" id="yKM-mC-ds4"/>
+                        </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nC7-V9-2mf">
-                        <rect key="frame" x="170" y="0.0" width="170" height="80"/>
+                        <rect key="frame" x="170" y="0.0" width="170" height="79.5"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="剩余20天" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tah-v7-R0w">
                                 <rect key="frame" x="48.5" y="15" width="73" height="21"/>
@@ -69,6 +74,11 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="endDateLabel" destination="Rnk-qg-KTX" id="ICH-3Q-fi5"/>
+                <outlet property="remaindStrLael" destination="tah-v7-R0w" id="G0t-HX-Gsb"/>
+                <outlet property="titleLabel" destination="9tp-CM-tgP" id="aEu-zD-9Vy"/>
+            </connections>
             <point key="canvasLocation" x="146.37681159420291" y="135.9375"/>
         </tableViewCell>
     </objects>

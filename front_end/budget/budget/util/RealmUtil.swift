@@ -10,7 +10,7 @@ import Foundation
 import RealmSwift
 
 struct RealmUtil {
-    public static func userRealm(username: String) -> Realm? {
+    public static func userRealm(username: String = "chenzhen") -> Realm? {
         var config = Realm.Configuration()
         config.fileURL = config.fileURL!.deletingLastPathComponent().appendingPathComponent("\(username).realm")
         

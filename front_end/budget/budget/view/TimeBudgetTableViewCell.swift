@@ -9,7 +9,12 @@
 import UIKit
 
 class TimeBudgetTableViewCell: UITableViewCell {
-
+    
+    
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var remaindStrLael: UILabel!
+    @IBOutlet weak var endDateLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

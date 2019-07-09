@@ -23,15 +23,16 @@ class budgetTests: XCTestCase {
     func testExample() {
         let realm = RealmUtil.userRealm(username: "chenzhen")!
         
-//        let budget = TimeBudget()
-//        budget.title = "just a test"
-//        budget.endDate = Date()
-//
-//        try! realm.write {
-//            realm.add(budget)
-//        }
+        let budget = Budget()
+        budget.id  = 1
+        budget.title = "where are u from?"
+        budget.endDate = Date()
+
+        try! realm.write {
+            realm.add(budget)
+        }
         
-        let budgets = realm.objects(TimeBudget.self)
+        let budgets = realm.objects(Budget.self)
         for bugget in budgets {
             print(bugget)
         }

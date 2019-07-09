@@ -31,8 +31,8 @@ public class LoginController {
         UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken("aa", "123456");
         try {
             subject.login(usernamePasswordToken);
-            User user = (User) subject.getPrincipal();
             if (subject.isAuthenticated()) {
+                User user = (User) subject.getPrincipal();
                 return RestResponse.ok(user);
             } else {
                 return RestResponse.fail("login failed");
